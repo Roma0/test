@@ -3,10 +3,11 @@ package com.ascending.repository;
 import com.ascending.model.Employee;
 
 import java.util.List;
+import java.util.Set;
 
 public interface EmployeeDao {
     Employee save(Employee employee);
-    Employee updateEmployeeAddress(Employee employee, String address);
+    int updateEmployeeAddressByName(String name, String address);
     List<Employee> getEmployees();
-    boolean delete(String employeeName);
+    boolean deleteByName(String employeeName);
 }
