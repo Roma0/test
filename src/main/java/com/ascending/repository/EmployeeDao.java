@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface EmployeeDao {
     Employee save(Employee employee);
-    Employee update(Employee employee);
-    List<Employee> getEmployee();
-    boolean delete(String eplyName);
+    Employee updateEmployeeAddress(Employee employee, String address);
+    List<Employee> getEmployees();
+    boolean delete(String employeeName);
 }
