@@ -10,9 +10,11 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public class DepartmentDaoImpl implements DepartmentDao {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -61,6 +63,7 @@ public class DepartmentDaoImpl implements DepartmentDao {
             Query<Department> query = session.createQuery(hql);
             query.setParameter("deptname1", deptName);
             deletedCount = query.executeUpdate();
+            transaction.commit();
         }
         catch (Exception e){
             if (transaction != null) transaction.rollback();
@@ -77,6 +80,10 @@ public class DepartmentDaoImpl implements DepartmentDao {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query<Department> query = session.createQuery(hql);
             return query.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+        }
+        catch (Exception e){
+            logger.debug(e.getMessage());
+            return null;
         }
     }
 
