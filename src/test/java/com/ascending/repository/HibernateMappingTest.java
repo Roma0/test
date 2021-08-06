@@ -3,6 +3,7 @@ package com.ascending.repository;
 import com.ascending.model.Account;
 import com.ascending.model.Department;
 import com.ascending.model.Employee;
+import com.ascending.model.User;
 import com.ascending.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -89,5 +90,21 @@ public class HibernateMappingTest {
 //        accounts.forEach(account -> logger.info(account.toString()+"test2"));
 
         Assert.assertNotNull(accounts);
+    }
+
+    @Test
+    public void mappingUsersClass(){
+        String hql = "FROM User";
+        List<User> userList = null;
+
+        try (Session session = HibernateUtil.getSessionFactory().openSession()){
+            Query<User> query = session.createQuery(hql);
+            userList = query.list();
+        }
+        catch (Exception e){
+            logger.error(e.getMessage());
+        }
+
+        Assert.assertNotNull(userList);
     }
 }
