@@ -1,5 +1,6 @@
 package com.ascending.service;
 
+import com.amazonaws.services.dynamodbv2.xspec.S;
 import com.ascending.ApplicationBootstrap;
 import com.ascending.model.User;
 import com.ascending.repository.UserDao;
@@ -55,14 +56,14 @@ public class JwtServiceTest {
 
     @Test
     public void generateToken(){
-        Map<String, Object> token = new HashMap<>();
+        Map<String, String> token = new HashMap<>();
         token = jwtService.generateToken(user);
         Assert.assertEquals(3, token.get("token").toString().split("\\.").length);
     }
 
     @Test
     public void decryptJwtToken(){
-        Map<String, Object> token = jwtService.generateToken(user);
+        Map<String, String> token = jwtService.generateToken(user);
         Claims claims = jwtService.decryptJwtToken(token);
         Assert.assertEquals(Long.toString(id), claims.getId());
     }

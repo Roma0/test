@@ -54,8 +54,8 @@ public class JwtService {
 //        return claims;
 //    }
 
-    public Map<String, Object> generateToken(User user) {
-        Map<String, Object> token = new HashMap<>();
+    public Map<String, String> generateToken(User user) {
+        Map<String, String> token = new HashMap<>();
         //JWT signature algorithm using to sign the token
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
         //Sign JWT with SECRET_KEY
@@ -91,10 +91,10 @@ public class JwtService {
         return token;
     }
 
-    public Claims decryptJwtToken(Map<String,Object> token) {
+    public Claims decryptJwtToken(Map<String,String> token) {
         Claims claims = Jwts.parser()
                 .setSigningKey(DatatypeConverter.parseBase64Binary(SECRET_KEY))
-                .parseClaimsJws(token.get("token").toString()).getBody();
+                .parseClaimsJws(token.get("token")).getBody();
         logger.debug("Claims: " + claims.toString());
         return claims;
     }

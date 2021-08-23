@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
+import java.net.URL;
 
 @RestController
 @RequestMapping(value = "/files")
@@ -34,7 +35,7 @@ public class ImageController {
      */
     @RequestMapping(value = "", method = RequestMethod.POST,
             consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity uploadFiles(@RequestParam("bucket") String bucket, @RequestParam("file") MultipartFile file){
+    public ResponseEntity uploadFiles(@RequestParam(name="bucket",required=false,defaultValue = "training-dan-1") String bucket, @RequestParam("file") MultipartFile file){
 
         String msg = String.format("Invalid parameters bucket=%s and file=%s.", bucket,file);
         if(bucket == null || file == null) return ResponseEntity.status(HttpServletResponse.SC_BAD_REQUEST).body(msg);
@@ -65,10 +66,10 @@ public class ImageController {
         //not able to find key throw exception
         try {
             logger.info(String.format(">>>>>>>>>>>>>>>>>Getting url of %s ...", key));
-            String url = fileService.getObjectPublicUrl(bucket, key).toString();
+            URL url = fileService.getObjectPublicUrl(bucket, key);
             msg = String.format("The url of the file with key=%s in bucket=%s is: %s.",
                     key, bucket, url);
-            return ResponseEntity.status(HttpServletResponse.SC_OK).body(msg);
+            return ResponseEntity.status(HttpServletResponse.SC_OK).body(url);
         }catch (Exception e){
             logger.error(e.getMessage());
             return ResponseEntity.status(HttpServletResponse.SC_NOT_ACCEPTABLE).body(e.getMessage());

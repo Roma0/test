@@ -11,7 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 
-@WebFilter(filterName = "loggerFilter")
+@WebFilter(filterName = "loggerFilter", urlPatterns = {"/*"}, dispatcherTypes = {DispatcherType.REQUEST})
 public class Logfilter implements Filter {
     private Logger logger = LoggerFactory.getLogger(getClass());
 

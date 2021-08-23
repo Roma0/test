@@ -23,6 +23,7 @@ import java.util.UUID;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = ApplicationBootstrap.class)
@@ -66,7 +67,7 @@ public class FileServiceTest {
             logger.error(e.getMessage());
         }
         //assertion for mockito
-        Mockito.verify(fileService.getS3Client(), times(1))
+        verify(fileService.getS3Client(), times(1))
                 .putObject(eq(awsBucket),
                         eq(s3key),
                         any(InputStream.class),
@@ -88,7 +89,7 @@ public class FileServiceTest {
             logger.error(e.getMessage());
         }
 
-        Mockito.verify(fileService.getS3Client(), times(1))
+        verify(fileService.getS3Client(), times(1))
                 .getUrl(eq(awsBucket),
                         eq(s3key));
         logger.debug(String.format("Get the public url of the file '%s'", url));

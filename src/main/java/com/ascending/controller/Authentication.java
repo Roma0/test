@@ -31,7 +31,7 @@ public class Authentication {
     @RequestMapping(value = "/signUp", method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity singUp(@RequestBody User user) {
 //        String token = "";
-        Map<String, Object> token;
+        Map<String, String> token;
 
         try {
             logger.debug(user.toString());
@@ -55,7 +55,7 @@ public class Authentication {
     @RequestMapping(value = "/signIn", method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity authenticate(@RequestBody User user) {
 //        String token = "";
-        Map<String, Object> token;
+        Map<String, String> token;
 
         try {
             logger.debug(user.toString());

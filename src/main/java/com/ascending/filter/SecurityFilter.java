@@ -18,11 +18,11 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-@WebFilter(filterName = "SecurityFilter")
+@WebFilter(filterName = "SecurityFilter", urlPatterns = {"/*"}, dispatcherTypes = {DispatcherType.REQUEST})
 public class SecurityFilter implements Filter {
     private Logger logger = LoggerFactory.getLogger(getClass());
     private String AUTH_URI = "/auth/signIn";
-//    private static String[] IGNOREURL = {"/auth/*", "/uer"};
+//    private static String[] IGNOREURL = {"/auth/*", "/user"};
 
     @Autowired private JwtService jwtService;
     @Autowired private UserDao userDao;
@@ -34,10 +34,11 @@ public class SecurityFilter implements Filter {
         if(uri.equalsIgnoreCase(AUTH_URI))return HttpServletResponse.SC_ACCEPTED;
 
         try {
-            Map<String, Object> token = new HashMap<>();
+            Map<String, String> token = new HashMap<>();
            token.put("token", req.getHeader("Authorization").replaceAll("^(.*?) ", ""));
             if(token == null || token.isEmpty())return statusCode;
 
+            //Todo: modify token verification
             Claims claims = jwtService.decryptJwtToken(token);
 //            if(claims.getId() != null){
 //                User u = userDao.findById(Long.valueOf(claims.getId()));
